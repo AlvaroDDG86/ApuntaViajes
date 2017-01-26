@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:layout_margin="10dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:text="22/1/2016"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/textViewFechaViaje"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:padding="5dp"
+        android:textStyle="normal|bold"
+        android:background="@color/colorPrimary"
+        android:layout_toStartOf="@+id/imageViewMedioViaje"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="14 €"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewImporteViaje"
+        android:layout_below="@+id/textViewFechaViaje"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="normal|bold"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:padding="5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_bus"
+        android:layout_below="@+id/textViewFechaViaje"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/imageViewMedioViaje" />
+
+    <TextView
+        android:text="250 km"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewKmsViaje"
+        android:layout_alignBottom="@+id/imageViewMedioViaje"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:padding="3dp" />
+</RelativeLayout>

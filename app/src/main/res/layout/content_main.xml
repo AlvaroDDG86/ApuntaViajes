@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.adgprogramador.madridtrips.MainActivity"
+    tools:showIn="@layout/app_bar_main"
+    android:background="@color/blueLight">
+
+    <TextView
+        android:text="54"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTitulo"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textViewViajes"
+        android:textColor="@color/colorAccent"
+        android:textSize="75sp"
+        android:textStyle="normal|bold"
+        android:background="@android:color/white"
+        android:padding="5dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="3000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewKms"
+        android:textColor="@color/colorAccent"
+        android:textStyle="normal|bold"
+        android:textSize="30sp"
+        android:layout_below="@+id/textViewKm"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:padding="5dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="62516 €"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewImporte"
+        android:textStyle="normal|bold"
+        android:textSize="30sp"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@+id/textViewIm"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:padding="5dp"
+        android:textAlignment="center" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/layourChart"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/textViewImporte">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent" />
+    </RelativeLayout>
+
+    <TextView
+        android:text="Importe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewIm"
+        android:textStyle="normal|bold"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:background="@android:color/white"
+        android:layout_below="@+id/textViewKms"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/viajes"
+        android:textStyle="normal|bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:id="@+id/textViewTitulo"
+        android:background="@android:color/white"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="kms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewKm"
+        android:textStyle="normal|bold"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:background="@android:color/white"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:layout_below="@+id/textViewViajes"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

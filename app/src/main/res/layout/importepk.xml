@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOkImporte"
+        android:background="@drawable/mybtn"
+        android:text="@string/ok"
+        android:gravity="center"
+        android:textColor="@android:color/background_light"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/numberPicker"
+        android:layout_centerHorizontal="true" />
+
+    <NumberPicker
+        android:id="@+id/numberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

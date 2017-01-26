@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOkFecha"
+        android:background="@drawable/mybtn"
+        android:text="@string/ok"
+        android:gravity="center"
+        android:textColor="@android:color/background_light"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:layout_below="@+id/datePicker"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

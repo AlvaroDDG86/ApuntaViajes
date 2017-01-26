@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ApuntaViajes</string>
+
+    <string name="navigation_drawer_open">Abrir Navegación</string>
+    <string name="navigation_drawer_close">Cerrar Navegación</string>
+
+    <string name="action_settings">Configuracion</string>
+    <string name="viajes">Viajes realizados</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Fecha">Fecha del viaje</string>
+    <string name="Medio">Medio de transporte</string>
+    <string name="guardar">Guardar viaje</string>
+    <string name="importe">Importe €</string>
+    <string name="ok">Ok</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="ida">Ida</string>
+    <string name="vuelta">Vuelta</string>
+    <string name="km">Km\'s</string>
+    <string name="exito">El viaje se ha grabado con éxito</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_nuevo_viaje"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="Nuevo viaje" />
+        <item
+            android:id="@+id/nav_lista"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="Lista de viajes" />
+        <item
+            android:id="@+id/nav_estadistica"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="Estadística" />
+    </group>
+
+    <item android:title="Social">
+        <menu>
+            <item
+                android:id="@+id/nav_comparte"
+                android:icon="@android:drawable/ic_menu_share"
+                android:title="Comparte" />
+            <item
+                android:id="@+id/nav_contacta"
+                android:icon="@android:drawable/ic_menu_send"
+                android:title="Contacta" />
+        </menu>
+    </item>
+
+</menu>
