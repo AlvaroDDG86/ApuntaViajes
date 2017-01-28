@@ -1,9 +1,8 @@
 package com.adgprogramador.madridtrips;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -12,40 +11,26 @@ import android.net.Uri;
 import android.os.Bundle;
 import java.util.ArrayList;
 
-import android.renderscript.Sampler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NuevoViaje.OnFragmentInteractionListener, ListaViajes.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NuevoViaje.OnFragmentInteractionListener, ListaViajes.OnFragmentInteractionListener, Estadistica.OnFragmentInteractionListener {
     private Typeface face;
     TextView txtViajes, txtKms, txtImporte;
     SQLiteDatabase db=null;
@@ -54,6 +39,9 @@ public class MainActivity extends AppCompatActivity
     String[] xData={"Coche","Autobús","Tren","Avión"};
     float[] yData=null;
     PieChart mChart;
+    android.support.v7.app.ActionBar actionBar;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +49,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+
+        fragmentManager = getFragmentManager();
         face=Typeface.createFromAsset(getAssets(),"font.ttf");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,7 +65,6 @@ public class MainActivity extends AppCompatActivity
         yData = new float[4];
         viajesDB = new SqlHelper(this, "DBViajes", null, 1);
         muestraDatosInicial();
-
         //viajes.setTypeface(face);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -103,10 +93,10 @@ public class MainActivity extends AppCompatActivity
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
 
-        colors.add(Color.YELLOW);
-        colors.add(Color.GREEN);
-        colors.add(Color.RED);
-        colors.add(Color.CYAN);
+        colors.add(Color.parseColor("#8BC34A"));
+        colors.add(Color.parseColor("#CDDC39"));
+        colors.add(Color.parseColor("#FFEB3B"));
+        colors.add(Color.parseColor("#FFA000"));
 
 
         dataSet.setColors(colors);
@@ -232,26 +222,44 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-
         switch (item.getItemId()){
+            case R.id.nav_inicio:
+                eliminaFragments();
+                break;
             case R.id.nav_nuevo_viaje:
+                eliminaFragments();
+                setTitulo("Nuevo viaje");
                 NuevoViaje nuevoViajeFragment = new NuevoViaje();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.animator.enter, R.animator.exit).add(R.id.content_main, nuevoViajeFragment).commit();
                 break;
             case R.id.nav_estadistica:
+                eliminaFragments();
+                setTitulo("Estadística");
+                Estadistica estadisticaFragment = new Estadistica();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.enter, R.animator.exit).add(R.id.content_main, estadisticaFragment).commit();
                 break;
             case R.id.nav_lista:
+                eliminaFragments();
+                setTitulo("Listado viajes");
                 ListaViajes nuevoListaFragment = new ListaViajes();
-                FragmentManager fragmentListaManager = getFragmentManager();
-                FragmentTransaction fragmentListaTransaction = fragmentListaManager.beginTransaction();
-                fragmentListaTransaction.setCustomAnimations(R.animator.enter, R.animator.exit).add(R.id.content_main, nuevoListaFragment).commit();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.enter, R.animator.exit).add(R.id.content_main, nuevoListaFragment).commit();
                 break;
             case R.id.nav_comparte:
-            break;
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String share = "https://play.google.com/store/apps/details?id=com.adgprogramador.buscaminasperruno";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Apunta Viajes");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, share);
+                startActivity(Intent.createChooser(sharingIntent, "Compartir mediante:"));
+                break;
             case R.id.nav_contacta:
-            break;
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto","adgprogramador@gmail.com", null));
+                startActivity(Intent.createChooser(intent, "Selecciona app para envíar el correo :"));
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -262,5 +270,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void setTitulo(String titulo){
+        actionBar.setTitle(titulo);
+    }
+
+    public void eliminaFragments(){
+        if(getFragmentManager().findFragmentById(R.id.content_main) == null){
+            return;
+        }
+        setTitulo("Apunta Viajes");
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.content_main)).commit();
     }
 }

@@ -7,20 +7,13 @@
     android:id="@+id/fragmentListaViajes"
     android:background="@android:color/background_light">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_exit"
-        android:id="@+id/imageViewExitLs"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/imageViewExitLs"
-        android:id="@+id/listViewViajes" />
+        android:id="@+id/listViewViajes"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        style="@null" />
 
 </RelativeLayout>

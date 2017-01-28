@@ -1,14 +1,21 @@
 package com.adgprogramador.madridtrips;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +41,7 @@ public class ListaViajes extends Fragment {
     String[] arrayIconos;
     ArrayList<Viaje> listaViajes;
     ListView listViewViajes;
+    ImageButton imageButtonDelete;
 
     public ListaViajes() {
         // Required empty public constructor
@@ -48,15 +56,6 @@ public class ListaViajes extends Fragment {
         layoutInflater = inflater;
         context = view.getContext();
         listViewViajes = (ListView)view.findViewById(R.id.listViewViajes);
-
-        imageViewExit = (ImageView)view.findViewById(R.id.imageViewExitLs);
-        imageViewExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().beginTransaction().setCustomAnimations(R.animator.enter, R.animator.exit).remove(ListaViajes.this).commit();
-            }
-        });
-
         rellenaViajes();
         AdapterViaje adaptadorPersonal=new AdapterViaje(view.getContext(),R.layout.medio, arrayFechas);
         listViewViajes.setAdapter(adaptadorPersonal);
@@ -137,7 +136,7 @@ public class ListaViajes extends Fragment {
             return crearItemPersonalizado(position, convertView, parent);
         }
     }
-    public View crearItemPersonalizado(int position, View convertView, ViewGroup parent){
+    public View crearItemPersonalizado(final int position, View convertView, ViewGroup parent){
         View miFila = layoutInflater.inflate(R.layout.viaje, parent, false);
         TextView fechaViaje = (TextView) miFila.findViewById(R.id.textViewFechaViaje);
         fechaViaje.setText(arrayFechas[position]);
@@ -162,8 +161,22 @@ public class ListaViajes extends Fragment {
                 break;
         }
         //
+        ImageButton btnBorrar = (ImageButton) miFila.findViewById(R.id.imageButtonDelete);
+        btnBorrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder adb=new AlertDialog.Builder(context);
+                adb.setTitle("Viaje el " + arrayFechas[position]);
+                adb.setMessage("Eliminar el viaje");
+                adb.setNegativeButton("Cancelar", null);
+                adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        
+                    }});
+                adb.show();
+            }
+        });
         return miFila;
     }
-
 
 }

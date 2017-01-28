@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:layout_margin="10dp"
-    android:background="@android:color/white">
+    android:padding="15dp"
+    android:background="@drawable/border"
+    android:layout_margin="15dp">
 
     <TextView
         android:text="22/1/2016"
@@ -55,4 +56,21 @@
         android:textSize="18sp"
         android:textColor="@android:color/black"
         android:padding="3dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_delete"
+        android:layout_above="@+id/imageViewMedioViaje"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/imageButtonDelete"
+        android:background="@color/transparent"
+        android:tint="@android:color/white"
+        android:layout_alignLeft="@+id/imageViewMedioViaje"
+        android:layout_alignStart="@+id/imageViewMedioViaje"
+        android:tintMode="multiply"
+        android:visibility="visible"
+        android:elevation="12dp" />
+
 </RelativeLayout>

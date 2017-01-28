@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ApuntaViajes</string>
+    <string name="app_name">Apunta Viajes</string>
 
     <string name="navigation_drawer_open">Abrir Navegación</string>
     <string name="navigation_drawer_close">Cerrar Navegación</string>
@@ -19,4 +19,9 @@
     <string name="vuelta">Vuelta</string>
     <string name="km">Km\'s</string>
     <string name="exito">El viaje se ha grabado con éxito</string>
+    <string name="salir">Salir</string>
+    <string name="enviocorreo">Enviar Correo</string>
+    <string name="correo">Correo</string>
+    <string name="asunto">Asunto</string>
+    <string name="comentario">Comentarios</string>
 </resources>

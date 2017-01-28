@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,8 @@ public class NuevoViaje extends Fragment{
     SQLiteDatabase db=null;
     SqlHelper viajesDB;
     Button buttonOk;
+    RelativeLayout relativeLayout;
+    EditText editTextFocus;
 
 
     public NuevoViaje() {
@@ -63,7 +66,8 @@ public class NuevoViaje extends Fragment{
         layoutInflater = inflater;
         View view = inflater.inflate(R.layout.fragment_nuevo_viaje, container, false);
         context = view.getContext();
-
+        editTextFocus = (EditText)view.findViewById(R.id.editTextFocus);
+        clearFocus();
         View layout = inflater.inflate(R.layout.customtoast,(ViewGroup) view.findViewById(R.id.custom_toast_container));
         final Toast toast = new Toast(context);
         toast.setGravity(Gravity.BOTTOM,0, 0);
@@ -78,7 +82,7 @@ public class NuevoViaje extends Fragment{
                 ((MainActivity)getActivity()).muestraDatosInicial();
                 ((MainActivity)getActivity()).rellenaDatosPieChart(4,100);
                 toast.show();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.animator.enter, R.animator.exit).remove(NuevoViaje.this).commit();
+                eliminarFragmen();
             }
         });
         viajesDB = new SqlHelper(context, "DBViajes", null, 1);
@@ -140,7 +144,7 @@ public class NuevoViaje extends Fragment{
             public void onClick(View v) {
                 editTextFecha.setText("");
                 editTextImporte.setText("");
-                getFragmentManager().beginTransaction().setCustomAnimations(R.animator.enter, R.animator.exit).remove(NuevoViaje.this).commit();
+
             }
         });*/
 
@@ -240,6 +244,7 @@ public class NuevoViaje extends Fragment{
                 String fecha = String.valueOf(dp.getDayOfMonth()) + "/" + String.valueOf(dp.getMonth()+1) + "/" + String.valueOf(dp.getYear());
                 editTextFecha.setText(String.valueOf(fecha));
                 d.dismiss();
+                clearFocus();
             }
         });
         d.show();
@@ -250,7 +255,7 @@ public class NuevoViaje extends Fragment{
         d.setContentView(R.layout.importepk);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker);
         Button btnOk = (Button) d.findViewById(R.id.buttonOkImporte);
-        if(btn == "importe"){
+        if(btn == "Importe"){
             d.setTitle("Importe €");
             np.setMaxValue(1000);
             int importe = Integer.parseInt(editTextImporte.getText().toString());
@@ -262,6 +267,7 @@ public class NuevoViaje extends Fragment{
                 public void onClick(View v) {
                     editTextImporte.setText(String.valueOf(np.getValue()));
                     d.dismiss();
+                    clearFocus();
                 }
             });
         }else{
@@ -276,6 +282,7 @@ public class NuevoViaje extends Fragment{
                 public void onClick(View v) {
                     editTextKm.setText(String.valueOf(np.getValue()));
                     d.dismiss();
+                    clearFocus();
                 }
             });
         }
@@ -301,5 +308,14 @@ public class NuevoViaje extends Fragment{
         String dia = String.valueOf(today.get(Calendar.DAY_OF_MONTH));
 
         return dia+"/"+mes+"/"+anno;
+    }
+
+    private void eliminarFragmen(){
+        ((MainActivity)getActivity()).setTitulo("Apunta Viajes");
+        getFragmentManager().beginTransaction().setCustomAnimations(R.animator.enter, R.animator.exit).remove(NuevoViaje.this).commit();
+    }
+
+    private void clearFocus(){
+        editTextFocus.requestFocus();
     }
 }
