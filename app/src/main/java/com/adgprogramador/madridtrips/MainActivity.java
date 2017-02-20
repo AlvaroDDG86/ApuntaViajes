@@ -280,6 +280,8 @@ public class MainActivity extends AppCompatActivity
         if(getFragmentManager().findFragmentById(R.id.content_main) == null){
             return;
         }
+        muestraDatosInicial();
+        rellenaDatosPieChart(4,100);
         setTitulo("Apunta Viajes");
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.content_main)).commit();
     }

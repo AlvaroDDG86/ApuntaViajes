@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SqlHelper  extends  SQLiteOpenHelper{
-    private final String sqlCreate = "CREATE TABLE Viajes (fecha TEXT, medio TEXT, importe TEXT, kms TEXT, trayecto TEXT)";
+    private final String sqlCreate = "CREATE TABLE Viajes (id integer primary key, fecha TEXT, medio TEXT, importe TEXT, kms TEXT, trayecto TEXT)";
 
     public SqlHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

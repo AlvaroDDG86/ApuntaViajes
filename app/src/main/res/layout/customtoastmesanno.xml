@@ -7,11 +7,12 @@
     android:padding="8dp"
     android:background="@drawable/bordertoast"
     >
+
     <TextView android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        android:text="@string/exito"
+        android:text="@string/mesanno"
         android:textSize="18sp"
         android:textStyle="normal|bold"
         android:gravity="center"

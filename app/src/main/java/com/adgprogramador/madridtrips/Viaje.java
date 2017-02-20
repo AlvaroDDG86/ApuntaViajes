@@ -5,18 +5,28 @@ package com.adgprogramador.madridtrips;
  */
 
 public class Viaje {
+    private int id;
     private String fecha;
     private String medio;
     private String importe;
     private String kms;
     private String trayecto;
 
-    public Viaje(String fecha, String medio, String importe, String kms, String trayecto) {
+    public Viaje(int id, String fecha, String medio, String importe, String kms, String trayecto) {
+        this.id = id;
         this.fecha = fecha;
         this.medio = medio;
         this.importe = importe;
         this.kms = kms;
         this.trayecto = trayecto;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFecha() {

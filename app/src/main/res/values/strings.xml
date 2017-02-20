@@ -24,4 +24,5 @@
     <string name="correo">Correo</string>
     <string name="asunto">Asunto</string>
     <string name="comentario">Comentarios</string>
+    <string name="mesanno">Selecciona un mes y año</string>
 </resources>

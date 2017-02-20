@@ -2,7 +2,11 @@ package com.adgprogramador.madridtrips;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.util.Date;
 
 /**
  * A simple {@link android.app.Fragment} subclass.
@@ -31,31 +35,24 @@ import android.widget.Toast;
  * to handle interaction events.
  */
 public class NuevoViaje extends Fragment{
+
+    // <editor-fold defaultstate="collapsed" desc="Propiedades">
     LayoutInflater layoutInflater;
     String[] myArraySpinner={"Coche","Autobús","Tren","Avión"};
-    float[] values={45,23,12,55};
-    int[] myArrayIcons={R.mipmap.ic_car,R.mipmap.ic_bus,R.mipmap.ic_train,R.mipmap.ic_airplane};
+    int[] myArrayIcons={R.mipmap.ic_cocheyellow,R.mipmap.ic_busyellow,R.mipmap.ic_trenyellow,R.mipmap.ic_avionyellow};
     private NuevoViaje.OnFragmentInteractionListener mListener;
-    ImageView exit;
-    EditText editTextFecha;
-    EditText editTextImporte;
-    EditText editTextKm;
+    EditText editTextFecha,editTextImporte,editTextKm,editTextFocus;
     int medio;
     Context context;
-    ImageView buttonEditFecha;
-    ImageView buttonEditImporte;
-    ImageView buttonEditKms;
     SQLiteDatabase db=null;
     SqlHelper viajesDB;
     Button buttonOk;
-    RelativeLayout relativeLayout;
-    EditText editTextFocus;
-
+    DateFormat dateFormat, dateFormatBBDD;
+    // </editor-fold>
 
     public NuevoViaje() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,26 +66,30 @@ public class NuevoViaje extends Fragment{
         editTextFocus = (EditText)view.findViewById(R.id.editTextFocus);
         clearFocus();
         View layout = inflater.inflate(R.layout.customtoast,(ViewGroup) view.findViewById(R.id.custom_toast_container));
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormatBBDD = new SimpleDateFormat("yyyy/MM/dd");
         final Toast toast = new Toast(context);
-        toast.setGravity(Gravity.BOTTOM,0, 0);
-        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL,0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
         Spinner spinner = (Spinner)view.findViewById(R.id.spinnerMedios);
+
         buttonOk = (Button)view.findViewById(R.id.buttonOk);
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                grabaViaje(editTextFecha.getText().toString(), myArraySpinner[medio], editTextImporte.getText().toString(),editTextKm.getText().toString(), "ida");
-                ((MainActivity)getActivity()).muestraDatosInicial();
-                ((MainActivity)getActivity()).rellenaDatosPieChart(4,100);
+                String texto = editTextFecha.getText().toString();
+                String dat = convertirDateBD(texto);
+                grabaViaje(dat, myArraySpinner[medio], editTextImporte.getText().toString(),editTextKm.getText().toString(), "ida");
                 toast.show();
-                eliminarFragmen();
+                ((MainActivity)getActivity()).eliminaFragments();
             }
         });
         viajesDB = new SqlHelper(context, "DBViajes", null, 1);
 
         editTextFecha=(EditText)view.findViewById(R.id.editTextFecha);
-        editTextFecha.setText(creaFecha());
+
+        editTextFecha.setText(dateFormat.format(new Date()));
         editTextFecha.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -98,7 +99,7 @@ public class NuevoViaje extends Fragment{
             }
         });
         editTextImporte=(EditText)view.findViewById(R.id.editTextImporte);
-        editTextImporte.setText("1");
+        editTextImporte.setText("10");
         editTextImporte.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -108,7 +109,7 @@ public class NuevoViaje extends Fragment{
             }
         });
         editTextKm=(EditText)view.findViewById(R.id.editTextKm);
-        editTextKm.setText("100");
+        editTextKm.setText("200");
         editTextKm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -117,37 +118,6 @@ public class NuevoViaje extends Fragment{
                 }
             }
         });
-       /* buttonEditFecha= (Button)view.findViewById(R.id.imageViewFecha);
-        buttonEditFecha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFecha();
-            }
-        });
-        buttonEditImporte= (Button)view.findViewById(R.id.imageViewImp);
-        buttonEditImporte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogImporte("importe");
-            }
-        });
-        buttonEditKms= (Button)view.findViewById(R.id.imageViewKms);
-        buttonEditKms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogImporte("km");
-            }
-        });
-        exit = (ImageView)view.findViewById(R.id.imageViewExitLs);
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextFecha.setText("");
-                editTextImporte.setText("");
-
-            }
-        });*/
-
 
         medio = 0;
         Adapter adaptadorPersonal=new Adapter(view.getContext(),R.layout.medio, myArraySpinner);
@@ -167,44 +137,6 @@ public class NuevoViaje extends Fragment{
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof NuevoViaje.OnFragmentInteractionListener) {
-            mListener = (NuevoViaje.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 
     public class Adapter extends ArrayAdapter<String> {
 
@@ -222,6 +154,7 @@ public class NuevoViaje extends Fragment{
             return crearItemPersonalizado(position, convertView, parent);
         }
     }
+
     public View crearItemPersonalizado(int position, View convertView, ViewGroup parent){
         View miFila = layoutInflater.inflate(R.layout.medio, parent, false);
         TextView nombre = (TextView) miFila.findViewById(R.id.textViewNombre);
@@ -230,8 +163,8 @@ public class NuevoViaje extends Fragment{
         imagen.setImageResource(myArrayIcons[position]);
         return miFila;
     }
-    public void dialogFecha()
-    {
+
+    public void dialogFecha(){
         final Dialog d = new Dialog(context);
         d.setTitle("Fecha viaje");
         d.setContentView(R.layout.fechapk);
@@ -241,16 +174,20 @@ public class NuevoViaje extends Fragment{
         {
             @Override
             public void onClick(View v) {
-                String fecha = String.valueOf(dp.getDayOfMonth()) + "/" + String.valueOf(dp.getMonth()+1) + "/" + String.valueOf(dp.getYear());
-                editTextFecha.setText(String.valueOf(fecha));
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, dp.getYear());
+                cal.set(Calendar.MONTH, dp.getMonth());
+                cal.set(Calendar.DAY_OF_MONTH, dp.getDayOfMonth());
+                Date dateRepresentation = cal.getTime();
+                editTextFecha.setText(dateFormat.format(dateRepresentation));
                 d.dismiss();
                 clearFocus();
             }
         });
         d.show();
     }
-    public void dialogImporte(String btn)
-    {
+
+    public void dialogImporte(String btn){
         final Dialog d = new Dialog(context);
         d.setContentView(R.layout.importepk);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker);
@@ -291,31 +228,65 @@ public class NuevoViaje extends Fragment{
         d.show();
     }
 
-
     private void grabaViaje(String fecha, String medio, String importe, String km, String trayecto){
         db=viajesDB.getWritableDatabase();
         if (db != null) {
-            db.execSQL("INSERT INTO Viajes (fecha, medio, importe, kms, trayecto) VALUES ('" + fecha + "', '" + medio + "', '" + importe + "', '" + km + "', '" + trayecto + "')");
+            db.execSQL("INSERT INTO Viajes ( fecha, medio, importe, kms, trayecto) VALUES ('" + fecha + "', '" + medio + "', '" + importe + "', '" + km + "', '" + trayecto + "')");
             db.close();
         }
-    }
-
-    private String creaFecha(){
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        String anno = String.valueOf(today.get(Calendar.YEAR));
-        String mes = String.valueOf(today.get(Calendar.MONTH)+ 1);
-        String dia = String.valueOf(today.get(Calendar.DAY_OF_MONTH));
-
-        return dia+"/"+mes+"/"+anno;
-    }
-
-    private void eliminarFragmen(){
-        ((MainActivity)getActivity()).setTitulo("Apunta Viajes");
-        getFragmentManager().beginTransaction().setCustomAnimations(R.animator.enter, R.animator.exit).remove(NuevoViaje.this).commit();
     }
 
     private void clearFocus(){
         editTextFocus.requestFocus();
     }
+
+    private String convertirDateBD(String fecha) {
+        String[] fechaSplit = fecha.split("/");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, Integer.parseInt(fechaSplit[2]));
+        cal.set(Calendar.MONTH,  Integer.parseInt(fechaSplit[1])-1);
+        cal.set(Calendar.DAY_OF_MONTH,  Integer.parseInt(fechaSplit[0]));
+        return dateFormatBBDD.format(cal.getTime()).replace("/","-");
+    }
+
+
+    // <editor-fold defaultstate="collapsed" desc="Generated Code - OVERRIDE">
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof NuevoViaje.OnFragmentInteractionListener) {
+            mListener = (NuevoViaje.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+    // </editor-fold>
 }
